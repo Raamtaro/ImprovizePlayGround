@@ -27,9 +27,6 @@ form.addEventListener("submit", function(event){
     gptResponse.classList.add("gpt"); 
 
     //Set the textContent, and then add to the chatlog
-
-    // gptResponse.textContent = userInput.value + " - this is a very intelligently worded question! Bravo! But I don't have an answer." //THIS IS THE SPOT WHERE WE'LL HAVE TO ADJUST THE GPT LOGIC
-    // chatLog.appendChild(gptResponse);
     let userMsg = userInput.value;
     const postData = {pin: '1945', user: '', query: userMsg, page: null};
 
