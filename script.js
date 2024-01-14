@@ -1,28 +1,4 @@
-// window.onload = function () {
-//     document
-//       .getElementById("chat-form")
-//       .addEventListener("submit", function (event) {
-//         // Prevent the form from submitting and refreshing the page
-//         event.preventDefault();
-//         let userInput = document.querySelector(".userMessage");
-//         console.log(userInput.textContent)
-
-//         // let userInput = document.getElementById("user-input").value;
-//         // let url = `/gpt4?user_input=${encodeURIComponent(userInput)}`;
-
-//         // fetch(url)
-//         //   .then((response) => response.json())
-//         //   .then((data) => {
-//         //     let content = data.content;
-//         //     let resultDiv = document.getElementById("result");
-//         //     resultDiv.innerHTML = content;
-//         //   })
-//         //   .catch((error) => {
-//         //     console.error("Error fetching GPT-4 response:", error);
-//           });
-//   };
 const form = document.getElementById("chat-form");
-
 
 form.addEventListener("submit", function(event){
     //prevents the page from being loaded upon form submit
@@ -51,23 +27,36 @@ form.addEventListener("submit", function(event){
     gptResponse.classList.add("gpt"); 
 
     //Set the textContent, and then add to the chatlog
-    gptResponse.textContent = userInput.value + " - this is a very intelligently worded question! Bravo! But I don't have an answer." //THIS IS THE SPOT WHERE WE'LL HAVE TO ADJUST THE GPT LOGIC
-    chatLog.appendChild(gptResponse);
 
-    userInput.value="";
+    // gptResponse.textContent = userInput.value + " - this is a very intelligently worded question! Bravo! But I don't have an answer." //THIS IS THE SPOT WHERE WE'LL HAVE TO ADJUST THE GPT LOGIC
+    // chatLog.appendChild(gptResponse);
+    let userMsg = userInput.value;
+    const postData = {pin: '1945', user: '', query: userMsg, page: null};
 
-    // console.log(userInput.value, typeof userInput.value); //test
+    //Utilize the fetch API to send our userMsg
+    async function postJSON(data) {
+        try {
+            //Set up the body of the request using fetch(URL)
+          const response = await fetch("https://app.improvize.com/botv2", {
+            method: "POST", // or 'PUT'
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "andy-WGVoMGfN"
+            },
+            body: JSON.stringify(data),
+          });
+      
+          const result = await response.json(); //Waits for a response from the server until executing the next line of code
+          console.log("Success:", result);
+          gptResponse.textContent = result.answer;
+          chatLog.appendChild(gptResponse);
+        } catch (error) { //Error handling if the request doesn't go through
+          console.error("Error:", error);
+        }
+      };
 
-    // let priorMessage = ""; //variable to store the user's most recent message
-    // let priorResponse = ""; //variable to store GPT's most recent response
-
-
-
-
-
+    postJSON(postData);
     
-
-
-
-
+    //Clear the input field to make room for the user's next inquiry
+    userInput.value="";
 })
