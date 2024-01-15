@@ -19,6 +19,8 @@ form.addEventListener("submit", function(event){
     userBubble.textContent=userInput.value;
     chatLog.appendChild(userBubble);
 
+    chatLog.scrollTop = chatLog.scrollHeight;
+
     //Same process for the gptResponse
     let gptResponse = document.createElement("div")
     
@@ -45,8 +47,12 @@ form.addEventListener("submit", function(event){
       
           const result = await response.json(); //Waits for a response from the server until executing the next line of code
           console.log("Success:", result);
+
           gptResponse.textContent = result.answer;
           chatLog.appendChild(gptResponse);
+
+          chatLog.scrollTop = chatLog.scrollHeight;
+          
         } catch (error) { //Error handling if the request doesn't go through
           console.error("Error:", error);
         }
