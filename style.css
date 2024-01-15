@@ -69,7 +69,7 @@ body {
 }
 
 .chatLog::-webkit-scrollbar {
-    display: auto;
+    display: none;
 }
 
 .history {
