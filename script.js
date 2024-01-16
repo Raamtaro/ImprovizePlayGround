@@ -23,9 +23,13 @@ function getCookie(cookieName) {
   return "";
 }
 
-const sessionId = Math.random().toString(36).substring(2,9);
 
-setCookie('sessionId', sessionId, 7);
+if (!getCookie('sessionId')){
+  const sessionId = Math.random().toString(36).substring(2,9);
+  setCookie('sessionId', sessionId, 7);
+};
+
+
 
 form.addEventListener("submit", function(event){
     //prevents the page from being loaded upon form submit
