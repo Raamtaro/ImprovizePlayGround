@@ -1,5 +1,32 @@
 const form = document.getElementById("chat-form");
 
+function setCookie(cookieName, cookieValue, expirationDays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000)); // Expiration time in milliseconds
+  const expires = "expires=" + d.toUTCString();
+  document.cookie = cookieName + "=" + cookieValue + "; " + expires + "; path=/";
+}
+
+function getCookie(cookieName) {
+  const name = cookieName + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieArray = decodedCookie.split(';');
+  for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === ' ') {
+          cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) === 0) {
+          return cookie.substring(name.length, cookie.length);
+      }
+  }
+  return "";
+}
+
+const sessionId = Math.random().toString(36).substring(2,9);
+
+setCookie('sessionId', sessionId, 7);
+
 form.addEventListener("submit", function(event){
     //prevents the page from being loaded upon form submit
     event.preventDefault();
@@ -30,8 +57,8 @@ form.addEventListener("submit", function(event){
 
     //Set the textContent, and then add to the chatlog
     let userMsg = userInput.value;
-    const postData = {pin: '1945', user: '', query: userMsg, page: null};
-
+    const postData = {pin: '1945', user: getCookie('sessionId'), query: userMsg, page: null};
+    console.log(postData.user);
     //Utilize the fetch API to send our userMsg
     async function postJSON(data) {
         try {
