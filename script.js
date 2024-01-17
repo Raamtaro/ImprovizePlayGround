@@ -61,7 +61,7 @@ form.addEventListener("submit", function(event){
 
     //Set the textContent, and then add to the chatlog
     let userMsg = userInput.value;
-    const postData = {pin: '1945', user: getCookie('sessionId'), query: userMsg, page: null};
+    const postData = {pin: '1945', user: getCookie('sessionId'), query: userMsg, page: window.location.href};
     console.log(postData.user);
     //Utilize the fetch API to send our userMsg
     async function postJSON(data) {
