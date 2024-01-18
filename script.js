@@ -29,6 +29,13 @@ if (!getCookie('sessionId')){
   setCookie('sessionId', sessionId, 7);
 };
 
+//LINE 33 contains a HARDCODED EXAMPLE. When testing with flask, change line 33 to: 
+//const searchParams = new URLSearchParams(window.location.href)
+const searchParams = new URLSearchParams('https://pythonanwhere.com/quickchat?page=liberty&title=AI%20Instant%20Calculator');
+if (searchParams.get('title')) {
+  document.querySelector(".title").innerHTML = searchParams.get('title');
+}
+
 
 
 form.addEventListener("submit", function(event){
@@ -61,8 +68,8 @@ form.addEventListener("submit", function(event){
 
     //Set the textContent, and then add to the chatlog
     let userMsg = userInput.value;
-    const postData = {pin: '1945', user: getCookie('sessionId'), query: userMsg, page: window.location.href};
-    console.log(postData.user);
+    const postData = {pin: '1945', user: getCookie('sessionId'), query: userMsg, page: searchParams.get('https://pythonanwhere.com/quickchat?page')};
+    console.log(postData);
     //Utilize the fetch API to send our userMsg
     async function postJSON(data) {
         try {
